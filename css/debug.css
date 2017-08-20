@@ -1,0 +1,21 @@
+th, td {
+    padding: 15px;
+    width: 25%;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+th {
+    text-align: left;
+}
+
+tr {
+
+}
+
+#debugInfo {
+    margin: 0 auto;
+    width: 50%;
+}
