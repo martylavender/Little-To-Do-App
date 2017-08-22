@@ -24,20 +24,24 @@ try {
         $listStatus = $row['listStatus'];
     }
 
-    if (isset($_POST['submitChanges'])) {
-
-        $listTitle = $_POST['listTitle'];
-        $listStatus = $_POST['listStatus'];
-
-        $update = $pdo -> prepare("UPDATE subtasks SET listTitle, listStatus WHERE subtask_id ='$edit_id'");
-        $update -> bindParam(':listTitle', $listTitle);
-        $update -> bindParam(':listStatus', $listStatus);
-        $update -> execute();
-        header("location:loggedin.php");
-    }
 } catch (PDOException $e) {
     echo "error:".$e -> getMessage();
 }
+
+if (isset($_POST['submitChanges'])) {
+
+
+    $update = $pdo -> prepare("UPDATE subtasks SET listTitle = :listTitle, listStatus = :listStatus WHERE subtask_id = :edit_id");
+    $update -> bindParam(':listTitle', $_POST['listTitle']);
+    $update -> bindParam(':listStatus', $_POST['listStatus']);
+    $update->bindParam(':edit_id',$_GET["edit_id"]);
+    $update -> execute();
+    header("location:list.php");
+}
+
+echo $listTitle;
+echo $listStatus;
+echo $edit_id;
 
 ?>
 
@@ -149,7 +153,7 @@ try {
         <div class="form-group">
             <label class="col-md-4 control-label" for="btnAddList"></label>
             <div class="col-md-4">
-                <button onclick="goBack()" class="btn btn-danger pull-right">Cancel</button>
+                <button onclick="window.history.go(-1); return false;" class="btn btn-danger pull-right">Cancel</button>
                 <span class="pull-right">&nbsp</span>
                 <input type="submit" name="submitChanges" class="btn btn-info pull-right" value="Update List">
             </div>

@@ -44,6 +44,19 @@ try {
     echo "error:".$e->getMessage();
 }
 
+$sql = "SELECT count(accountType) FROM users WHERE userID = :userID AND accountType = 1";
+$result = $pdo->prepare($sql);
+$result->bindParam(':userID',$_SESSION['user_id']);
+$result->execute();
+$number_of_rows = $result->fetchColumn();
+
+if($number_of_rows == 1) {
+    $isAdmin = '<a href="adminpanel.php">Admin</a>
+                <li class="divider"></li>';
+} else {
+    $isAdmin = '';
+}
+
 ?>
 
 <!doctype html>
@@ -142,6 +155,7 @@ try {
                         <span class="glyphicon glyphicon-cog"></span>
                     </button>
                     <ul class="dropdown-menu">
+                        <li><?php echo $isAdmin ?></li>
                         <li><a href="loggedin.php">Your Lists</a></li>
                         <li class="divider"></li>
                         <li><a href="profile.php">Profile</a></li>

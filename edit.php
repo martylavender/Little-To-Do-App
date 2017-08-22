@@ -24,19 +24,28 @@ try {
         $listStatus = $row['listStatus'];
     }
 
-    if (isset($_POST['submitChanges'])) {
-
-        $listTitle = $_POST['listTitle'];
-        $listStatus = $_POST['listStatus'];
-
-        $update = $pdo -> prepare("UPDATE userlists SET listTitle, listStatus WHERE listID ='$edit_id'");
-        $update -> bindParam(':listTitle', $listTitle);
-        $update -> bindParam(':listStatus', $listStatus);
-        $update -> execute();
-        header("location:loggedin.php");
-    }
 } catch (PDOException $e) {
     echo "error:".$e -> getMessage();
+}
+
+try {
+    if(isset($_POST['submitChanges'])) {
+
+        $listTitle= $_POST['listTitle'];
+        $listStatus = $_POST['listStatus'];
+        $edit_id = $_GET["edit_id"];
+
+        $sql = "UPDATE userlists SET listTitle=:listTitle, listStatus=:listStatus WHERE listID=:edit_id";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(":listTitle", $listTitle, PDO::PARAM_STR);
+        $stmt->bindValue(":listStatus", $listStatus, PDO::PARAM_STR);
+        $stmt->bindParam(':edit_id',$edit_id);
+        $result = $stmt->execute();
+        header("Location: loggedin.php");
+    }
+    /* catch any exceptions that may occur */
+} catch(PDOException $e) {
+    echo "error:".$e->getMessage();
 }
 
 ?>
@@ -129,7 +138,7 @@ try {
         <div class="form-group">
             <label class="col-md-4 control-label" for="btnAddList"></label>
             <div class="col-md-4">
-                <a href="loggedin.php" id="xchanges" class="btn btn-danger pull-right">Cancel</a>
+                <button onclick="window.history.go(-1); return false;" class="btn btn-danger pull-right">Cancel</button>
                 <span class="pull-right">&nbsp</span>
                 <input type="submit" name="submitChanges" class="btn btn-info pull-right" value="Update List">
             </div>

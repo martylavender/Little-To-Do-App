@@ -89,10 +89,10 @@ if(isset($_POST['register'])){
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="index.php">
                 <img class="img-responsive" alt="Brand" src="img/ltda.png" height="25" width="25" style="margin-top: -2px">
             </a>
-            <a class="navbar-brand" href="#">Little To Do App</a>
+            <a class="navbar-brand" href="index.php">Little To Do App</a>
         </div>
     </div><!-- /.container-fluid -->
 </nav>
